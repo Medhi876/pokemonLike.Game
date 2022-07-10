@@ -20,7 +20,7 @@ class Sprite {
     }
 
     draw() {
-        context.drawImage(this.image, -415, -520);
+        context.drawImage(this.image, this.position.x, this.position.y);
     }
 }
 
@@ -50,7 +50,7 @@ const keys = {
 function animate() {
     window.requestAnimationFrame(animate)//appele de animate pour loop
     background.draw()//draw le background
-    context.drawImage(
+    context.drawImage( //draw la player image correctement
         playerImage,
         0,
         0,
@@ -62,8 +62,19 @@ function animate() {
         playerImage.height
     )
 
-    // if()
-}
+    if(keys.z.pressed) {
+        background.position.y = background.position.y + 3
+    }
+    else if(keys.s.pressed) {
+        background.position.y = background.position.y - 3
+    }
+    else if(keys.q.pressed) {
+        background.position.x = background.position.x + 3
+    }
+    else if(keys.d.pressed) {
+        background.position.x = background.position.x - 3
+    }
+};
 animate(); //appele en loop d'une function pour l'animation
 
 window.addEventListener('keydown', (e) => {
@@ -82,6 +93,25 @@ window.addEventListener('keydown', (e) => {
             keys.d.pressed = true;
             break;
     }; //definition du zqsd pour le mouvement du personnage 😉
+});
+
+window.addEventListener('keyup', (e) => {
+    // console.log(e.key);
+    switch (e.key) {
+        case 'z':
+            keys.z.pressed = false;
+            break;
+        case 'q':
+            keys.q.pressed = false;
+            break;
+        case 's':
+            keys.s.pressed = false;
+            break;
+        case 'd':
+            keys.d.pressed = false;
+            break;
+    }; //definition du zqsd pour le mouvement du personnage 😉
+    console.log(keys)
 });
 
 
