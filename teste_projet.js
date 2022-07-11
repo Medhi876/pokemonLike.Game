@@ -25,6 +25,10 @@ class Boundary {
 }
 
 const boundaries = [];
+const offset = { 
+    x: -160,
+    y: -290
+}
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
@@ -32,8 +36,8 @@ collisionsMap.forEach((row, i) => {
         boundaries.push(
             new Boundary({
                 position: {
-                x: j * Boundary.width,
-                y: i * Boundary.height
+                x: j * Boundary.width + offset.x,
+                y: i * Boundary.height + offset.y
                 }
             })
         )
@@ -47,20 +51,35 @@ const playerImage = new Image () //constente "playerImage" pour le personnage
 playerImage.src = './img/playerDown.png' //source du personnage
 
 class Sprite {
-    constructor({ position, velocity, image }) {
+    constructor({ position, velocity, image, frames = {max: 1} }) {
         this.position = position
         this.image = image
+        this.frames = frames
     }
 
     draw() {
-        context.drawImage(this.image, this.position.x, this.position.y);
+        context.drawImage( //draw la player image correctement
+            this.image,
+            0,
+            0,
+            this.image.width / this.frames.max,
+            this.image.height,
+            this.position.x,
+            this.position.y,
+            this.image.width / this.frames.max,
+            this.image.height
+        )
     }
 }
 
+// canvas.width / 2 - this.image.width / 4 / 2,
+//             canvas.height / 2 - this.image.height / 2,
+
+
 const background = new Sprite({ //spawn point du background
     position: { 
-        x: -160,
-        y: -290 
+        x: offset.x,
+        y: offset.y
     }, 
     image: image
 });
@@ -80,35 +99,44 @@ const keys = {
     }
 }
 
+const testBoundary = new Boundary({
+    position: {
+        x: 400,
+        y: 400
+    }
+})
+
+const movables = [background, testBoundary]
 function animate() {
     window.requestAnimationFrame(animate)//appele de animate pour loop
     background.draw()//draw le background
-    boundaries.forEach(boundary => {
-        boundary.draw()
-    })
-    context.drawImage( //draw la player image correctement
-        playerImage,
-        0,
-        0,
-        playerImage.width / 4,
-        playerImage.height,
-        canvas.width / 2 - playerImage.width / 4 / 2,
-        canvas.height / 2 - playerImage.height / 2,
-        playerImage.width / 4,
-        playerImage.height
-    )
-
+    // boundaries.forEach(boundary => {
+    //     boundary.draw()
+    // })
+    testBoundary.draw()//draw le test boundary
+    
+    
+    // if(player.position.x + player.width)
+    
     if(keys.z.pressed && lastKey === 'z') {
-        background.position.y = background.position.y + 3
+        movables.forEach(movable => {
+            movable.position.y += 3
+        })
     }
     else if(keys.s.pressed && lastKey === 's') {
-        background.position.y = background.position.y - 3
+        movables.forEach(movable => {
+            movable.position.y -= 3
+        })
     }
     else if(keys.q.pressed && lastKey === 'q') {
-        background.position.x = background.position.x + 3
+        movables.forEach(movable => {
+            movable.position.x += 3
+        })
     }
     else if(keys.d.pressed && lastKey === 'd') {
-        background.position.x = background.position.x - 3
+        movables.forEach(movable => {
+            movable.position.x -= 3
+        })
     }
 }
 animate() //appele en loop d'une function pour l'animation
@@ -153,7 +181,7 @@ window.addEventListener('keyup', (e) => {
             break
     } //definition du zqsd pour le mouvement du personnage 😉 inactif
 
-    console.log(keys)
+    //console.log(keys)
 })
 
 
