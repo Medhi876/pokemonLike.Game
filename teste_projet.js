@@ -55,6 +55,13 @@ class Sprite {
         this.position = position
         this.image = image
         this.frames = frames
+        this.image.onload = () => {
+            this.width = this.image.width / this.frames.max
+            this.height = this.image.height 
+            console.log(this.width)
+            console.log(this.height)
+        }
+        
     }
 
     draw() {
@@ -72,9 +79,16 @@ class Sprite {
     }
 }
 
-// canvas.width / 2 - this.image.width / 4 / 2,
-//             canvas.height / 2 - this.image.height / 2,
-
+const player = new Sprite ({
+    position: {
+        x: canvas.width / 2 - 192 / 4 / 2,
+        y: canvas.height / 2 - 68 / 2
+    },
+    image: playerImage,
+    frames: {
+        max: 4
+    }
+})
 
 const background = new Sprite({ //spawn point du background
     position: { 
@@ -99,26 +113,33 @@ const keys = {
     }
 }
 
-const testBoundary = new Boundary({
-    position: {
-        x: 400,
-        y: 400
-    }
-})
+const movables = [background, ...boundaries]
 
-const movables = [background, testBoundary]
+function rectangularCollision({ rectangle1, rectangle2 }) {
+    return (
+        rectangle1.position.x + rectangle1.width >= rectangle2.position.x && 
+        rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
+        rectangle1.position.y <= rectangle2.position.y + rectangle2.height &&
+        rectangle1.position.y + player.height >= rectangle2.position.y
+    )
+}
 function animate() {
     window.requestAnimationFrame(animate)//appele de animate pour loop
     background.draw()//draw le background
-    // boundaries.forEach(boundary => {
-    //     boundary.draw()
-    // })
-    testBoundary.draw()//draw le test boundary
+    boundaries.forEach(boundary => { 
+        boundary.draw() //draw les boundary
+        if (
+            rectangularCollision({
+                rectangle1: player,
+                rectangle2: boundary
+            })
+        ) {
+        console.log('colliding')
+        }
+    })
+    player.draw()//draw le player
     
-    
-    // if(player.position.x + player.width)
-    
-    if(keys.z.pressed && lastKey === 'z') {
+    if (keys.z.pressed && lastKey === 'z') {
         movables.forEach(movable => {
             movable.position.y += 3
         })
