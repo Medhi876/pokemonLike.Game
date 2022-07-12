@@ -29,7 +29,7 @@ class Sprite {
         this.frames.elapsed++
         }
             
-        if (this.frames.elapsed % 10 ===0)
+        if (this.frames.elapsed % 10 === 0)
             {if (this.frames.value < this.frames.max - 1)
                 this.frames.value++
             else this.frames.value = 0
@@ -37,7 +37,7 @@ class Sprite {
     }
 }
 
-class Boundary { // bordure de zone
+class Boundary { // construitles bondary : batle zone et collision zone
     static width = 48
     static height = 48
     constructor({ position }) {
@@ -47,7 +47,7 @@ class Boundary { // bordure de zone
     }
 
     draw() { // "dessine" les bordure de zone
-        context.fillStyle = 'rgba(255, 0, 0, 0.0'
+        context.fillStyle = 'rgba(255, 0, 0, 0.5'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }

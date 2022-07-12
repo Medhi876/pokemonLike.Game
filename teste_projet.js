@@ -9,7 +9,12 @@ for (let i = 0; i < collisions.length; i += 70) { //width de la map en nombre de
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
 
-const boundaries = []; //pour les collision
+const battleZonesMap = [] //pour les battle
+for (let i = 0; i < battleZonesData.length; i += 70) { //width de la map en nombre de tile
+    battleZonesMap.push(battleZonesData.slice(i, 70 + i))
+}
+
+const boundaries = []; //bondarrie array pour JStile de collision
 const offset = { 
     x: -160,
     y: -360
@@ -28,6 +33,24 @@ collisionsMap.forEach((row, i) => { //pour les collision
         )
     })
 })
+
+const battleZones = []  //battle zones array for JStile
+
+battleZonesMap.forEach((row, i) => { //pour les collision
+    row.forEach((symbol, j) => {
+        if (symbol === 2049)
+        battleZones.push(
+            new Boundary({
+                position: {
+                x: j * Boundary.width + offset.x,
+                y: i * Boundary.height + offset.y
+                }
+            })
+        )
+    })
+})
+
+console.log(battleZones)
 
 const image = new Image() //constante "image" pour la map
 image.src = './img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
@@ -96,7 +119,7 @@ const keys = { //definit les keye comme unpressed par defalt
     }
 }
 
-const movables = [background, ...boundaries, foreground] //pour le mouvement du joueur :p
+const movables = [background, ...boundaries, foreground, ...battleZones] //pour le mouvement du joueur :p
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
         rectangle1.position.x + rectangle1.width >= rectangle2.position.x && 
@@ -109,16 +132,41 @@ function animate() {
     window.requestAnimationFrame(animate)//appele de animate pour loop
     background.draw()//draw le background
     boundaries.forEach(boundary => { 
-        boundary.draw() //draw les boundary
+        boundary.draw() //draw les Boundary
+    })
+    battleZones.forEach(BattleZone => { 
+        BattleZone.draw() //draw les Boundary
     })
     player.draw()//draw le player
     foreground.draw()//draw le foreground
     
+    if (keys.z.pressed || keys.s.pressed || keys.q.pressed || keys.d.pressed) {
+        for (let i = 0; i < battleZones.length; i++) {
+            const battleZone = battleZones[i]
+            const overlappingArea = 
+            (Math.min(player.position.x + player.width, battleZone.position.x + battleZone.width) - 
+            Math.max(player.position.x, battleZone.position.x))
+            * 
+            (Math.min(player.position.y + player.height, battleZone.position.y + battleZone.height) - 
+            Math.max(player.position.y, battleZone.position.y))
+            if (
+                rectangularCollision({
+                    rectangle1: player,
+                    rectangle2: battleZone
+                }) &&
+                overlappingArea > (player.width * player.height) / 2
+            ) {
+                console.log('battle zone colision')
+                break
+            }
+        }
+    }
+    
     let moving = true
     player.moving = false
-    player.image = player.sprites.up
     if (keys.z.pressed && lastKey === 'z') { //mouvement si z.keye up
         player.moving = true
+        player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -132,11 +180,11 @@ function animate() {
                 }
                 })
             ) {
-                console.log('colliding') //mouvement false si collision detecté
-            moving = false
+            moving = false //mouvement false si collision detecté
                 break
             }
         }
+        
         if (moving)
         movables.forEach(movable => {
             movable.position.y += 3
