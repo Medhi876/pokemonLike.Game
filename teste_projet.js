@@ -1,8 +1,8 @@
 const canvas = document.querySelector('canvas') //selectionne la balise canva en html, constente
 const context = canvas.getContext('2d') //precise que le canvas sera 2d, constente
 
-canvas.width = 1105 //largeur du canvas
-canvas.height = 716 //heuteur du canvas
+canvas.width = 1024 //largeur du canvas
+canvas.height = 576 //heuteur du canvas
 
 const collisionsMap = [] //pour les collision
 for (let i = 0; i < collisions.length; i += 70) { //width de la map en nombre de tile
@@ -16,8 +16,8 @@ for (let i = 0; i < battleZonesData.length; i += 70) { //width de la map en nomb
 
 const boundaries = []; //bondarrie array pour JStile de collision
 const offset = { 
-    x: -122,
-    y: -255
+    x: -160,
+    y: -355
 }
 
 collisionsMap.forEach((row, i) => { //pour les collision
@@ -167,7 +167,7 @@ function animate() {
                     rectangle2: battleZone
                 }) &&
                 overlappingArea > (player.width * player.height) / 2
-                && Math.random() < 0.008
+                && Math.random() < 0.01
             ) {
                 console.log('activate battle')
                 
@@ -182,12 +182,18 @@ function animate() {
                     duration: 0.4,
                     onComplete() {
                         gsap.to('#overlappingDiv', {
-                        opacity: 1,
-                        duration: 0.4
+                            opacity: 1,
+                            duration: 0.4,
+                            onComplete() {
+                                //activate new animation loop
+                                animateBattle()
+                                gsap.to('#overlappingDiv', {
+                                    opacity: 0,
+                                    duration: 0.4,
+                                })
+                            }
                         })
                         
-                        //activate new animation loop
-                        animateBattle()
                     }
                 })
                 break
@@ -289,11 +295,11 @@ function animate() {
             }
             })
         ) {
-            console.log('colliding') //mouvement false si collision detecté
-        moving = false
+            moving = false //mouvement false si collision detecté
             break
+            }
         }
-        }
+        
         if (moving)
         movables.forEach(movable => {
             movable.position.x -= 3
@@ -302,10 +308,19 @@ function animate() {
 }
 animate() //appele en loop d'une function pour l'animation
 
+const battleBackgroundImage = new Image()
+battleBackgroundImage.src = './img/battleBackground.png'
+const battleBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: battleBackgroundImage
+})
 function animateBattle() {
     window.requestAnimationFrame(animateBattle)
-    console.log('animating a battle')
-}
+    battleBackground.draw()
+    }
 
 let lastKey = '' //last keye pressed
 window.addEventListener('keydown', (e) => {
