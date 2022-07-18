@@ -37,7 +37,7 @@ class Sprite {
     }
 }
 
-class Boundary { // construitles bondary : batle zone et collision zone
+class Boundary { // construit les bondary : batle zone et collision zone
     static width = 48
     static height = 48
     constructor({ position }) {
@@ -47,7 +47,7 @@ class Boundary { // construitles bondary : batle zone et collision zone
     }
 
     draw() { // "dessine" les bordure de zone
-        context.fillStyle = 'rgba(255, 0, 0, 0.5'
+        context.fillStyle = 'rgba(255, 0, 0, 0.2'
         context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }

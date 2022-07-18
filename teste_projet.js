@@ -1,8 +1,8 @@
 const canvas = document.querySelector('canvas') //selectionne la balise canva en html, constente
 const context = canvas.getContext('2d') //precise que le canvas sera 2d, constente
 
-canvas.width = 1024 //largeur du canvas
-canvas.height = 576 //heuteur du canvas
+canvas.width = 1105 //largeur du canvas
+canvas.height = 716 //heuteur du canvas
 
 const collisionsMap = [] //pour les collision
 for (let i = 0; i < collisions.length; i += 70) { //width de la map en nombre de tile
@@ -16,8 +16,8 @@ for (let i = 0; i < battleZonesData.length; i += 70) { //width de la map en nomb
 
 const boundaries = []; //bondarrie array pour JStile de collision
 const offset = { 
-    x: -160,
-    y: -360
+    x: -122,
+    y: -255
 }
 
 collisionsMap.forEach((row, i) => { //pour les collision
@@ -50,7 +50,7 @@ battleZonesMap.forEach((row, i) => { //pour les collision
     })
 })
 
-console.log(battleZones)
+//console.log(battleZones)
 
 const image = new Image() //constante "image" pour la map
 image.src = './img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
@@ -128,8 +128,13 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
         rectangle1.position.y + player.height >= rectangle2.position.y
     )
 }
+const battle = {
+    initiated: false
+}
+
 function animate() {
-    window.requestAnimationFrame(animate)//appele de animate pour loop
+    const animationId = window.requestAnimationFrame(animate)//appele de animate pour loop
+    console.log(animationId)
     background.draw()//draw le background
     boundaries.forEach(boundary => { 
         boundary.draw() //draw les Boundary
@@ -137,9 +142,16 @@ function animate() {
     battleZones.forEach(BattleZone => { 
         BattleZone.draw() //draw les Boundary
     })
-    player.draw()//draw le player
-    foreground.draw()//draw le foreground
+    player.draw() //draw le player
+    foreground.draw() //draw le foreground
+
+    let moving = true
+    player.moving = false
     
+    console.log(animationId)
+    if(battle.initiated) return
+    
+    //active the battle
     if (keys.z.pressed || keys.s.pressed || keys.q.pressed || keys.d.pressed) {
         for (let i = 0; i < battleZones.length; i++) {
             const battleZone = battleZones[i]
@@ -155,15 +167,34 @@ function animate() {
                     rectangle2: battleZone
                 }) &&
                 overlappingArea > (player.width * player.height) / 2
+                && Math.random() < 0.008
             ) {
-                console.log('battle zone colision')
+                console.log('activate battle')
+                
+                //desactivate curent animation loop
+                window.cancelAnimationFrame(animationId)
+                
+                battle.initiated = true
+                gsap.to('#overlappingDiv', {
+                    opacity: 1, 
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.4,
+                    onComplete() {
+                        gsap.to('#overlappingDiv', {
+                        opacity: 1,
+                        duration: 0.4
+                        })
+                        
+                        //activate new animation loop
+                        animateBattle()
+                    }
+                })
                 break
             }
         }
     }
     
-    let moving = true
-    player.moving = false
     if (keys.z.pressed && lastKey === 'z') { //mouvement si z.keye up
         player.moving = true
         player.image = player.sprites.up
@@ -271,6 +302,11 @@ function animate() {
 }
 animate() //appele en loop d'une function pour l'animation
 
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle)
+    console.log('animating a battle')
+}
+
 let lastKey = '' //last keye pressed
 window.addEventListener('keydown', (e) => {
     // console.log(e.key);
@@ -312,8 +348,5 @@ window.addEventListener('keyup', (e) => { //return la dernierre keye pressed a f
     } //definition du zqsd pour le mouvement du personnage 😉 inactif
 
     //console.log(keys)
+    //console.log(animate)
 })
-
-
-
-
