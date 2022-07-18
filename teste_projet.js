@@ -78,7 +78,8 @@ const player = new Sprite ({
     },
     image: playerDownImage,
     frames: {
-        max: 4 //pour l'annimation du mouvement
+        max: 4, //pour l'annimation du mouvement
+        hold: 10
     },
     sprites: {
         up: playerUpImage,  //sprite up
@@ -146,7 +147,7 @@ function animate() {
     foreground.draw() //draw le foreground
 
     let moving = true
-    player.moving = false
+    player.animate = false
     
     console.log(animationId)
     if(battle.initiated) return
@@ -202,7 +203,7 @@ function animate() {
     }
     
     if (keys.z.pressed && lastKey === 'z') { //mouvement si z.keye up
-        player.moving = true
+        player.animate = true
         player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i]
@@ -228,7 +229,7 @@ function animate() {
         })
     }
     else if(keys.s.pressed && lastKey === 's') { //mouvement si s.keye down
-    player.moving = true
+    player.animate = true
     player.image = player.sprites.down
     for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -254,7 +255,7 @@ function animate() {
         })
     }
     else if(keys.q.pressed && lastKey === 'q') { //mouvement si q.keye left
-    player.moving = true
+    player.animate = true
     player.image = player.sprites.left
     for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -280,7 +281,7 @@ function animate() {
         })
     }
     else if(keys.d.pressed && lastKey === 'd') {  //mouvement si d.keye right
-    player.moving = true
+    player.animate = true
     player.image = player.sprites.right
     for (let i = 0; i < boundaries.length; i++) {
         const boundary = boundaries[i]
@@ -306,7 +307,7 @@ function animate() {
         })
     }
 }
-animate() //appele en loop d'une function pour l'animation
+//animate() //appele en loop d'une function pour l'animation
 
 const battleBackgroundImage = new Image()
 battleBackgroundImage.src = './img/battleBackground.png'
@@ -317,10 +318,45 @@ const battleBackground = new Sprite({
     },
     image: battleBackgroundImage
 })
+
+const draggleImage = new Image()
+draggleImage.src = './img/draggleSprite.png'
+const draggle = new Sprite({            //enemy sprite
+    position: {
+        x: 800, 
+        y: 100
+    },
+    image: draggleImage,
+    frames: {
+        max : 4,
+        hold: 30
+    }, 
+    animate: true
+})
+
+const embyImage = new Image()
+embyImage.src = './img/embySprite.png'
+const emby = new Sprite({            //enemy sprite
+    position: {
+        x: 280, 
+        y: 325
+    },
+    image: embyImage,
+    frames: {
+        max : 4,
+        hold: 30
+    }, 
+    animate: true
+})
+
 function animateBattle() {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
+    draggle.draw()
+    emby.draw()
     }
+    
+    animateBattle()
 
 let lastKey = '' //last keye pressed
 window.addEventListener('keydown', (e) => {
