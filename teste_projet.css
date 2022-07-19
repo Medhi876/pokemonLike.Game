@@ -2,7 +2,7 @@
     font-family: 'Press Start 2P', cursive;
 }
 
-h3{
+h4{
     margin: 0;
     padding: 0;
     font-size: 16px;
@@ -64,3 +64,49 @@ body {
     justify-content: center;
     border-left: 4px #111111 solid;
 }
+/*draggel helf bar*/
+#enemyHP {
+    position: absolute;
+    background:white;
+    width: 250px;
+    height:35px;
+    top: 50px;
+    left: 50px;
+    border: 2px #111111 solid;
+    padding: 12px;
+    border-radius: 7.5px;
+}
+
+#hpBar {
+    position: relative;
+}
+
+#enemyHP_Bar_Empty {
+    height:5px;
+    background: #ddd;
+    /* border-radius: 50px; */
+    border: 1px #111111 solid;
+    margin-top: 10px;
+    
+}
+
+#enemyHP_Bar_full {
+    height:5px;
+    background: green;
+    /* border-radius: 50px; */
+    border: 1px #111111 solid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right:0;
+}
+
+/* #enemyHP_Bar_notfull {
+    height:5px;
+    background: green;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border: 1px #111111 solid;
+    margin-top: 10px;
+    width: 246px;
+} */
