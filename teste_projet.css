@@ -1,7 +1,23 @@
-/* *{
-   margin: 0;
-   padding: 0;
-} */
+* {
+    font-family: 'Press Start 2P', cursive;
+}
+
+h3{
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+button{
+    border: 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #ddd;
+    cursor: pointer;
+}
 
 body {
     background: #111111;
@@ -10,6 +26,7 @@ body {
 #parent {
     display: inline-block;
     position: relative;
+    height: calc(576px + 140px)
 }
 
 #overlappingDiv {
@@ -21,4 +38,29 @@ body {
     left: 0;
     opacity: 0;
     pointer-events: none;
+}
+
+#attackBar {
+    background: white;
+    border-top: 4px #111111 solid;
+    height: 140px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display:flex;
+}
+
+#attackNameButton {
+    width:66.66%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#attackType {
+    width: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 4px #111111 solid;
 }
