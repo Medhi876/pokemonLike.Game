@@ -1,5 +1,5 @@
 const canvas = document.querySelector('canvas') //selectionne la balise canva en html, constente
-const context = canvas.getContext('2d') //precise que le canvas sera 2d, constente
+const c = canvas.getContext('2d') //precise que le canvas sera 2d, constente
 
 canvas.width = 1024 //largeur du canvas
 canvas.height = 576 //heuteur du canvas
@@ -331,7 +331,8 @@ const draggle = new Sprite({            //enemy sprite
         max : 4,
         hold: 30
     }, 
-    animate: true
+    animate: true,
+    isEnemy: true
 })
 
 const embyImage = new Image()
@@ -354,9 +355,23 @@ function animateBattle() {
     battleBackground.draw()
     draggle.draw()
     emby.draw()
-    }
-    
-    animateBattle()
+}
+
+//animate the battle
+animateBattle()
+
+document.querySelectorAll('button').forEach((button) => {
+    button.addEventListener('click', () => {
+        emby.attack({
+            attack: {
+                name: 'Tackle',
+                dammage: 10,
+                type: 'Normal'
+            },
+            recipient: draggle
+        })
+    })
+})
 
 let lastKey = '' //last keye pressed
 window.addEventListener('keydown', (e) => {

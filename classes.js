@@ -23,7 +23,7 @@ class Sprite {
             this.image.width / this.frames.max,
             this.image.height,
             this.position.x,
-            this.position.y,                    //
+            this.position.y,                    
             this.image.width / this.frames.max, //player image avec frame divisé
             this.image.height
         )
@@ -48,10 +48,10 @@ class Sprite {
         this.health -= attack.damage
         
         let movementDistance = 20
-        if(this.isEnemy) movementDistance = -20
+        if(this.isEnemy) movementDistance = - 20
         
         let healthBar = '#enemyHP_Bar_full'
-        if (this.isEnemy) healthBar = 'allyHP_Bar_full'
+        if (this.isEnemy) healthBar = '#allyHP_Bar_full'
         
         tl.to(this.position, {
             x: this.position.x - movementDistance
@@ -61,7 +61,7 @@ class Sprite {
             duration: 0.1,
             onComplete: () => {                           //enemie hit animation
                 //enemie getting hit
-                gsap.to(healthBar, {
+                gsap.to('healthBar', {
                 width: this.health - attack.damage + '%'
                 })
                 
