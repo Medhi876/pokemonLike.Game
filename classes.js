@@ -28,13 +28,13 @@ class Sprite {
             this.image.height
         )
         c.restore()
-        
+
         if (!this.animate) return
         
         if (this.frames.max > 1) {
         this.frames.elapsed++
         }
-            
+
         if (this.frames.elapsed % this.frames.hold === 0)
             {if (this.frames.value < this.frames.max - 1)
                 this.frames.value++
@@ -42,8 +42,23 @@ class Sprite {
         }
     }
     
-    attack({attack, recipient }) {
-        const tl = gsap.timeline()
+    attack({ attack, recipient, renderdSprites }) {
+        switch (attack.name) {
+            case 'Fireball':
+                const fireballImage = new Image()
+                fireballImage.src = './img/fireball.png'
+                const fireball = new Sprite({
+                    position: {
+                        x: this.position.x,
+                        y: this.position.y
+                    },
+                    image: fireballImage
+                })
+
+                renderdSprites.push(fireball)
+            break;
+            case 'Tackle':
+            const tl = gsap.timeline()
         
         this.health -= attack.damage
         
@@ -64,14 +79,12 @@ class Sprite {
                 gsap.to('healthBar', {
                 width: this.health - attack.damage + '%'
                 })
-                
                 gsap.to(recipient.position, {
                 x: recipient.position.x + 10,
                 yoyo : true,
                 repeat: 5,
                 duration: 0.08
                 })
-                
                 gsap.to(recipient, {
                     opacity: 0,
                     repeat: 5,
@@ -82,6 +95,10 @@ class Sprite {
         }).to(this.position, {
             x: this.position.x
         })
+            break;
+
+        }
+        
     }
 }
 

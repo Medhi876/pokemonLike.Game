@@ -350,25 +350,29 @@ const emby = new Sprite({            //enemy sprite
     animate: true
 })
 
+const renderSprites = []
 function animateBattle() {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
     draggle.draw()
     emby.draw()
+
+    renderSprites.forEach((sprite) => {
+        sprite.draw()
+    })
 }
 
 //animate the battle
 animateBattle()
 
+//our attack button event listeners
 document.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
         emby.attack({
-            attack: {
-                name: 'Tackle',
-                dammage: 10,
-                type: 'Normal'
-            },
-            recipient: draggle
+            attack: selectedAttack,
+            recipient: draggle,
+            renderSprites
         })
     })
 })
@@ -411,8 +415,9 @@ window.addEventListener('keyup', (e) => { //return la dernierre keye pressed a f
         case 'd':
             keys.d.pressed = false
             break
-    } //definition du zqsd pour le mouvement du personnage 😉 inactif
+    } //definition du zqsd pour le mouvement du personnage 😉 inactif, garde la direction fixer sur la direction du dernier mouvement effectuer
 
     //console.log(keys)
     //console.log(animate)
 })
+
