@@ -89,7 +89,7 @@ body {
     
 }
 
-#enemyHP_Bar_full {
+#enemyHpBarFull {
     height:5px;
     background: green;
     /* border-radius: 50px; 
@@ -136,7 +136,7 @@ body {
     
 }
 
-#allyHP_Bar_full {
+#allyHpBarfull {
     height:5px;
     background: green;
     /* border-radius: 50px; 

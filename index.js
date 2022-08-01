@@ -350,14 +350,13 @@ const emby = new Sprite({            //enemy sprite
     animate: true
 })
 
-const renderSprites = []
+const renderedSprites = [draggle, emby]
 function animateBattle() {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
-    draggle.draw()
-    emby.draw()
 
-    renderSprites.forEach((sprite) => {
+
+    renderedSprites.forEach((sprite) => {
         sprite.draw()
     })
 }
@@ -372,7 +371,7 @@ document.querySelectorAll('button').forEach((button) => {
         emby.attack({
             attack: selectedAttack,
             recipient: draggle,
-            renderSprites
+            renderedSprites
         })
     })
 })
@@ -421,3 +420,8 @@ window.addEventListener('keyup', (e) => { //return la dernierre keye pressed a f
     //console.log(animate)
 })
 
+//
+//
+//
+//
+//
