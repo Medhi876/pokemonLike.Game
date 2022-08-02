@@ -6,7 +6,8 @@ class Sprite {
     sprites,
     animate = false,
     isEnemy = false,
-    rotation = 0
+    rotation = 0,
+    name 
     }) {
         this.position = position
         this.image = image
@@ -21,6 +22,7 @@ class Sprite {
         this.health = 100
         this.isEnemy = isEnemy
         this.rotation = rotation
+        this.name = name
     }
     draw() { //draw plains de truc
         c.save()
@@ -50,7 +52,7 @@ class Sprite {
         if (!this.animate) return
         
         if (this.frames.max > 1) {
-        this.frames.elapsed++
+            this.frames.elapsed++
         }
 
         if (this.frames.elapsed % this.frames.hold === 0)
@@ -61,6 +63,9 @@ class Sprite {
     }
 
     attack({ attack, recipient, renderedSprites}) {
+        document.querySelector('#dialogueBox').style.display = 'block' 
+        document.querySelector('#dialogueBox').innerHTML = this.name + ' used ' + attack.name
+        
         let healthBar = '#enemyHpBarFull'
         if (this.isEnemy) healthBar = '#allyHpBarfull'
 
@@ -71,7 +76,7 @@ class Sprite {
         switch (attack.name) {
             case 'Fireball':
                 const fireballImage = new Image()
-                fireballImage.src = './img/fireball.png'
+                fireballImage.src = '../img/fireball.png'
                 const fireball = new Sprite({
                     position: {
                         x: this.position.x,

@@ -53,22 +53,22 @@ battleZonesMap.forEach((row, i) => { //pour les collision
 //console.log(battleZones)
 
 const image = new Image() //constante "image" pour la map
-image.src = './img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
+image.src = '../img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
 
 const foregroundImage = new Image() //constente "image" pour la map
-foregroundImage.src = './img/Pokemon Style Game Map foreground object.png'  //source de la "new image" de type map
+foregroundImage.src = '../img/Pokemon Style Game Map foreground object.png'  //source de la "new image" de type foreground of the map
 
 const playerDownImage = new Image () //constante "playerImage" pour le personnage
-playerDownImage.src = './img/playerDown.png' //source du sprite Down du personnage
+playerDownImage.src = '../img/playerDown.png' //source du sprite Down du personnage
 
 const playerUpImage = new Image () //constante "playerUpImage" pour le personnage
-playerUpImage.src = './img/playerUp.png' //source du sprite Up du personnage
+playerUpImage.src = '../img/playerUp.png' //source du sprite Up du personnage
 
 const playerLeftImage = new Image () //constante "playerUpImage" pour le personnage
-playerLeftImage.src = './img/playerLeft.png' //source du sprite Left du personnage
+playerLeftImage.src = '../img/playerLeft.png' //source du sprite Left du personnage
 
 const playerRightImage = new Image () //constante "playerRightImage" pour le personnage
-playerRightImage.src = './img/playerRight.png' //source du sprite Right du personnage
+playerRightImage.src = '../img/playerRight.png' //source du sprite Right du personnage
 
 
 const player = new Sprite ({
@@ -309,72 +309,6 @@ function animate() {
 }
 //animate() //appele en loop d'une function pour l'animation
 
-const battleBackgroundImage = new Image()
-battleBackgroundImage.src = './img/battleBackground.png'
-const battleBackground = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: battleBackgroundImage
-})
-
-const draggleImage = new Image()
-draggleImage.src = './img/draggleSprite.png'
-const draggle = new Sprite({            //enemy sprite
-    position: {
-        x: 800, 
-        y: 100
-    },
-    image: draggleImage,
-    frames: {
-        max : 4,
-        hold: 30
-    }, 
-    animate: true,
-    isEnemy: true
-})
-
-const embyImage = new Image()
-embyImage.src = './img/embySprite.png'
-const emby = new Sprite({            //enemy sprite
-    position: {
-        x: 280, 
-        y: 325
-    },
-    image: embyImage,
-    frames: {
-        max : 4,
-        hold: 30
-    }, 
-    animate: true
-})
-
-const renderedSprites = [draggle, emby]
-function animateBattle() {
-    window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
-
-
-    renderedSprites.forEach((sprite) => {
-        sprite.draw()
-    })
-}
-
-//animate the battle
-animateBattle()
-
-//our attack button event listeners
-document.querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', (e) => {
-        const selectedAttack = attacks[e.currentTarget.innerHTML]
-        emby.attack({
-            attack: selectedAttack,
-            recipient: draggle,
-            renderedSprites
-        })
-    })
-})
 
 let lastKey = '' //last keye pressed
 window.addEventListener('keydown', (e) => {
