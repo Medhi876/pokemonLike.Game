@@ -64,7 +64,9 @@ body {
     justify-content: center;
     border-left: 4px #111111 solid;
 }
+
 /*-----------------------draggel health bar----------------------------*/
+
 #enemyInfo {
     position: absolute;
     background:white;
@@ -80,7 +82,7 @@ body {
     position: relative;
 }
 
-#enemyHpBar_Empty {
+#enemyHpBarEmpty {
     height:5px;
     background: #ddd;
     /* border-radius: 50px; */
@@ -127,6 +129,7 @@ body {
     position: relative;
 }
 
+
 #allyHpBarEmpty {
     height:5px;
     background: #ddd;
@@ -167,4 +170,4 @@ body {
     background: #fefefe; 
     padding: 12px;
     display: none;
-}
+} 

@@ -1,25 +1,20 @@
 const canvas = document.querySelector('canvas') //selectionne la balise canva en html, constente
 const c = canvas.getContext('2d') //precise que le canvas sera 2d, constente
-
 canvas.width = 1024 //largeur du canvas
 canvas.height = 576 //heuteur du canvas
-
 const collisionsMap = [] //pour les collision
 for (let i = 0; i < collisions.length; i += 70) { //width de la map en nombre de tile
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
-
 const battleZonesMap = [] //pour les battle
 for (let i = 0; i < battleZonesData.length; i += 70) { //width de la map en nombre de tile
     battleZonesMap.push(battleZonesData.slice(i, 70 + i))
 }
-
 const boundaries = []; //bondarrie array pour JStile de collision
 const offset = { 
     x: -160,
     y: -355
 }
-
 collisionsMap.forEach((row, i) => { //pour les collision
     row.forEach((symbol, j) => {
         if (symbol === 2049)
@@ -33,9 +28,7 @@ collisionsMap.forEach((row, i) => { //pour les collision
         )
     })
 })
-
 const battleZones = []  //battle zones array for JStile
-
 battleZonesMap.forEach((row, i) => { //pour les collision
     row.forEach((symbol, j) => {
         if (symbol === 2049)
@@ -49,25 +42,30 @@ battleZonesMap.forEach((row, i) => { //pour les collision
         )
     })
 })
-
 //console.log(battleZones)
 
 const image = new Image() //constante "image" pour la map
+image.src = './img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
 image.src = '../img/Pokemon Style Game Map2.png'  //source de la "new image" de type map
 
 const foregroundImage = new Image() //constente "image" pour la map
+foregroundImage.src = './img/Pokemon Style Game Map foreground object.png'  //source de la "new image" de type map
 foregroundImage.src = '../img/Pokemon Style Game Map foreground object.png'  //source de la "new image" de type foreground of the map
 
 const playerDownImage = new Image () //constante "playerImage" pour le personnage
+playerDownImage.src = './img/playerDown.png' //source du sprite Down du personnage
 playerDownImage.src = '../img/playerDown.png' //source du sprite Down du personnage
 
 const playerUpImage = new Image () //constante "playerUpImage" pour le personnage
+playerUpImage.src = './img/playerUp.png' //source du sprite Up du personnage
 playerUpImage.src = '../img/playerUp.png' //source du sprite Up du personnage
 
 const playerLeftImage = new Image () //constante "playerUpImage" pour le personnage
+playerLeftImage.src = './img/playerLeft.png' //source du sprite Left du personnage
 playerLeftImage.src = '../img/playerLeft.png' //source du sprite Left du personnage
 
 const playerRightImage = new Image () //constante "playerRightImage" pour le personnage
+playerRightImage.src = './img/playerRight.png' //source du sprite Right du personnage
 playerRightImage.src = '../img/playerRight.png' //source du sprite Right du personnage
 
 
@@ -88,7 +86,6 @@ const player = new Sprite ({
         down: playerDownImage  //sprite down
     }
 })
-
 const background = new Sprite({ //spawn point du background
     position: { 
         x: offset.x,
@@ -96,7 +93,6 @@ const background = new Sprite({ //spawn point du background
     }, 
     image: image
 });
-
 const foreground = new Sprite({ //spawn point du foreground
     position: { 
         x: offset.x,
@@ -104,7 +100,6 @@ const foreground = new Sprite({ //spawn point du foreground
     }, 
     image: foregroundImage
 });
-
 const keys = { //definit les keye comme unpressed par defalt
     z: {
         pressed: false
@@ -119,7 +114,6 @@ const keys = { //definit les keye comme unpressed par defalt
         pressed: false
     }
 }
-
 const movables = [background, ...boundaries, foreground, ...battleZones] //pour le mouvement du joueur :p
 function rectangularCollision({ rectangle1, rectangle2 }) {
     return (
@@ -132,7 +126,6 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 const battle = {
     initiated: false
 }
-
 function animate() {
     const animationId = window.requestAnimationFrame(animate)//appele de animate pour loop
     console.log(animationId)
@@ -145,7 +138,6 @@ function animate() {
     })
     player.draw() //draw le player
     foreground.draw() //draw le foreground
-
     let moving = true
     player.animate = false
     
@@ -308,54 +300,3 @@ function animate() {
     }
 }
 //animate() //appele en loop d'une function pour l'animation
-
-
-let lastKey = '' //last keye pressed
-window.addEventListener('keydown', (e) => {
-    // console.log(e.key);
-    switch (e.key) {
-        case 'z':
-            keys.z.pressed = true;
-            lastKey = 'z'
-            break
-        case 'q':
-            keys.q.pressed = true;
-            lastKey = 'q'
-            break
-        case 's':
-            keys.s.pressed = true;
-            lastKey = 's'
-            break
-        case 'd':
-            keys.d.pressed = true;
-            lastKey = 'd'
-            break
-    } //definition du zqsd pour le mouvement du personnage 😉 actif
-})
-
-window.addEventListener('keyup', (e) => { //return la dernierre keye pressed a false si unpressed
-    // console.log(e.key)
-    switch (e.key) {
-        case 'z':
-            keys.z.pressed = false
-            break
-        case 'q':
-            keys.q.pressed = false
-            break
-        case 's':
-            keys.s.pressed = false
-            break
-        case 'd':
-            keys.d.pressed = false
-            break
-    } //definition du zqsd pour le mouvement du personnage 😉 inactif, garde la direction fixer sur la direction du dernier mouvement effectuer
-
-    //console.log(keys)
-    //console.log(animate)
-})
-
-//
-//
-//
-//
-//
