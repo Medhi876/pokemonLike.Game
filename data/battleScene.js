@@ -54,6 +54,8 @@ function animateBattle() {
 //animate the battle
 animateBattle()
 
+const queue = []
+
 //our attack button event listeners
 document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
@@ -63,9 +65,20 @@ document.querySelectorAll('button').forEach((button) => {
             recipient: draggle,
             renderedSprites
         })
+        
+        queue.push(() => {
+            draggle.attack({
+                attack: attacks.Tackle,
+                recipient: emby,
+                renderedSprites
+            })
+        })
     })
 })
 
-document.querySelector('#dialogueBox').addEventListener('click', () => {
-    console.log('click dialogue')
+document.querySelector('#dialogueBox').addEventListener('click', (e) => {
+    if (queue.length > 0) {
+        queue[0] ()
+        queue.shift()
+    }else e.currentTarget.style.display = 'none'
 })
